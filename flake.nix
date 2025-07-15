@@ -190,20 +190,20 @@
           ];
           treesitter = with pkgs.vimPlugins; [
             nvim-treesitter-textobjects
-            # nvim-treesitter.withAllGrammars
-            (nvim-treesitter.withPlugins (
-              plugins:
-                with plugins; [
-                  nix
-                  lua
-                  rust
-                  go
-                  python
-                  c
-                  cpp
-                  bash
-                ]
-            ))
+            nvim-treesitter.withAllGrammars
+            # (nvim-treesitter.withPlugins (
+            #   plugins:
+            #     with plugins; [
+            #       nix
+            #       lua
+            #       rust
+            #       go
+            #       python
+            #       c
+            #       cpp
+            #       bash
+            #     ]
+            # ))
           ];
           telescope = with pkgs.vimPlugins; [
             telescope-fzf-native-nvim
