@@ -4,9 +4,6 @@ return {
   {
     "nvim-treesitter",
     for_cat = 'general.treesitter',
-    lazy = false,
-    priority = 50, -- to ensure that markview loads before treesitter
-    dependencies = {"OXYDEV/markview.nvim"}, -- to ensure that markview loads before treesitter
     -- cmd = { "" },
     event = "DeferredUIEnter",
     -- ft = "",

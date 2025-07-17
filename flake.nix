@@ -86,6 +86,10 @@
 
         # Language-Specific Toolchains / LSPs
 
+        markdown = with pkgs; [
+          markdown-oxide
+        ];
+
         python = with pkgs; [
           python3Full
           pyright

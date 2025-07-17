@@ -1,0 +1,16 @@
+return {
+{
+    "hlargs",
+    for_cat = 'general.extra',
+    event = "DeferredUIEnter",
+    -- keys = "",
+    dep_of = { "nvim-lspconfig" },
+    after = function(plugin)
+      require('hlargs').setup {
+        color = '#32a88f',
+      }
+      vim.cmd([[hi clear @lsp.type.parameter]])
+      vim.cmd([[hi link @lsp.type.parameter Hlargs]])
+    end,
+  }
+}

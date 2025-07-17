@@ -2,10 +2,9 @@
 return {
   {
     "OXY2DEV/markview.nvim",
-    lazy = false,         -- disable lazy loading (required)
-    priority = 49,        -- high priority so it loads before treesitter
     for_cat = "general.markdown",
-    config = function()
+    event = "DeferredUIEnter",
+    after = function(plugin)
       require("markview").setup({
         experimental = {
           date_formats = {},
