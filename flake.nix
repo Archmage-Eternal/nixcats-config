@@ -88,6 +88,8 @@
 
         markdown = with pkgs; [
           markdown-oxide
+          pandoc
+          nodePackages.mermaid-cli
         ];
 
         python = with pkgs; [
@@ -152,13 +154,15 @@
           ];
         };
 
+        markdown = with pkgs.vimPlugins; [
+          markview-nvim
+        ];
+
         themer = with pkgs.vimPlugins; (
           builtins.getAttr (categories.colorscheme or "tokyonight") {
-            "onedark" = onedark-nvim;
             "catppuccin" = catppuccin-nvim;
             "catppuccin-mocha" = catppuccin-nvim;
             "tokyonight" = tokyonight-nvim;
-            "tokyonight-day" = tokyonight-nvim;
           }
         );
       };
@@ -180,9 +184,6 @@
         ];
         format = with pkgs.vimPlugins; [
           conform-nvim
-        ];
-        markdown = with pkgs.vimPlugins; [
-          markview-nvim
         ];
         general = {
           completion = with pkgs.vimPlugins; [
@@ -264,13 +265,15 @@
         rust = [
           ["debug" "rust"]
         ];
+        markdown = [
+        ["markdown"]
+        ];
       };
     };
 
     packageDefinitions = {
       nixCats = {
         pkgs,
-        name,
         ...
       } @ misc: {
         settings = {
@@ -298,7 +301,7 @@
 
           lspDebugMode = false;
           themer = true;
-          colorscheme = "tokyonight";
+          colorscheme = "catppuccin";
         };
         extra = {
           nixdExtras = {

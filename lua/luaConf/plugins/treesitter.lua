@@ -1,11 +1,12 @@
--- [[ Configure Treesitter ]]
--- See `:help nvim-treesitter`
 return {
   {
     "nvim-treesitter",
     for_cat = 'general.treesitter',
+    lazy = false,
+    priority = 50,
+    dependencies = { "OXY2DEV/markview.nvim" },
     -- cmd = { "" },
-    event = "DeferredUIEnter",
+    -- event = "DeferredUIEnter",
     -- ft = "",
     -- keys = "",
     -- colorscheme = "",
@@ -13,7 +14,7 @@ return {
         vim.cmd.packadd(name)
         vim.cmd.packadd("nvim-treesitter-textobjects")
     end,
-    after = function (plugin)
+    config = function (plugin)
       -- [[ Configure Treesitter ]]
       -- See `:help nvim-treesitter`
       require('nvim-treesitter.configs').setup {
