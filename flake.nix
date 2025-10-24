@@ -18,7 +18,7 @@
   } @ inputs: let
     inherit (inputs.nixCats) utils;
     luaPath = ./.;
-    forEachSystem = utils.eachSystem nixpkgs.lib.platforms.all;
+    forEachSystem = utils.eachSystem ["x86_64-linux" "aarch64-linux" "x86_64-darwin" "aarch64-darwin"];
     extra_pkg_config = {};
 
     dependencyOverlays = [
@@ -35,66 +35,33 @@
       ...
     } @ packageDef: {
       lspsAndRuntimeDeps = {
-        # General Tools (used by multiple plugins / LSPs)
         general = with pkgs; [
           ripgrep
           fd
           universal-ctags
         ];
 
-        # Linters
-        lint = with pkgs; [
-          # Python
-          pylint
-          mypy
-
-          # JavaScript / TypeScript
-          eslint
-
-          # Rust
-          clippy
-
-          # Nix
-          statix
-
-          # Lua
-          lua54Packages.luacheck
-        ];
-
-        # Formatters
-        format = with pkgs; [
-          # Python
-          black
-          isort
-
-          # JavaScript / TypeScript
-          prettier
-
-          # Lua
-          stylua
-
-          # Nix
-          alejandra
-        ];
-
-        # Debuggers
-        debug = with pkgs; {
-          go = [delve];
-          python = [python313Packages.debugpy];
-          c_cpp = [gdb];
-        };
-
-        # Language-Specific Toolchains / LSPs
-
         markdown = with pkgs; [
-          markdown-oxide
+          # Always available: basic markdown tools
           pandoc
           nodePackages.mermaid-cli
-        ];
+        ] ++ (if categories.zettelkasten or false then [
+          # Zettelkasten-specific: advanced LSP features
+          markdown-oxide
+        ] else []);
+
+        debug = with pkgs; {
+          python = [ python313Packages.debugpy ];
+          go = [ delve ];
+        };
 
         python = with pkgs; [
-          python3Full
+          python3
           pyright
+          pylint
+          mypy
+          black
+          isort
         ];
 
         go = with pkgs; [
@@ -109,22 +76,30 @@
           rustc
           cargo
           rust-analyzer
+          clippy
         ];
 
         javascript = with pkgs; [
           nodejs
           typescript
           typescript-language-server
+          eslint
+          prettier
         ];
 
         lua = with pkgs; [
           lua-language-server
+          lua54Packages.luacheck
+          stylua
         ];
 
         nix = with pkgs; [
           nixd
           nix-doc
+          statix
+          alejandra
         ];
+
         c_cpp = with pkgs; [
           gcc
           clang
@@ -132,14 +107,11 @@
           cmake
           gnumake
           cppcheck
+          gdb
         ];
       };
 
-      # This is for plugins that will load at startup without using packadd:
       startupPlugins = {
-        debug = with pkgs.vimPlugins; [
-          nvim-nio
-        ];
         general = with pkgs.vimPlugins; {
           always = [
             lze
@@ -147,6 +119,7 @@
             vim-repeat
             plenary-nvim
             nvim-notify
+            nvim-nio
           ];
           extra = [
             oil-nvim
@@ -154,9 +127,12 @@
           ];
         };
 
-        markdown = with pkgs.vimPlugins; [
+        markdown = with pkgs.vimPlugins; (if categories.zettelkasten or false then [
+          # Full markdown experience for zettelkasten
           markview-nvim
-        ];
+        ] else [
+          # Basic markdown for general use
+        ]);
 
         themer = with pkgs.vimPlugins; (
           builtins.getAttr (categories.colorscheme or "tokyonight") {
@@ -168,23 +144,30 @@
       };
 
       optionalPlugins = {
-        debug = with pkgs.vimPlugins; {
-          default = [
-            nvim-dap
-            nvim-dap-ui
-            nvim-dap-virtual-text
-          ];
-          go = [nvim-dap-go];
-          python = [nvim-dap-python];
-          rust = [rust-tools-nvim];
-          lua = [lazydev-nvim];
-        };
+        # Core development tools (shared across languages)
         lint = with pkgs.vimPlugins; [
           nvim-lint
         ];
+        
         format = with pkgs.vimPlugins; [
           conform-nvim
         ];
+        
+        debug = with pkgs.vimPlugins; [
+          nvim-dap
+          nvim-dap-ui
+          nvim-dap-virtual-text
+        ];
+
+        # Language-specific debug plugins
+        "python.debug" = with pkgs.vimPlugins; [ nvim-dap-python ];
+        "go.debug" = with pkgs.vimPlugins; [ nvim-dap-go ];
+        
+        # Language-specific plugins
+        rust = with pkgs.vimPlugins; [ rust-tools-nvim ];
+        lua = with pkgs.vimPlugins; [ lazydev-nvim ];
+
+        # markdown: Markview plugin loaded via startupPlugins
         general = {
           completion = with pkgs.vimPlugins; [
             luasnip
@@ -196,19 +179,6 @@
           treesitter = with pkgs.vimPlugins; [
             nvim-treesitter-textobjects
             nvim-treesitter.withAllGrammars
-            # (nvim-treesitter.withPlugins (
-            #   plugins:
-            #     with plugins; [
-            #       nix
-            #       lua
-            #       rust
-            #       go
-            #       python
-            #       c
-            #       cpp
-            #       bash
-            #     ]
-            # ))
           ];
           telescope = with pkgs.vimPlugins; [
             telescope-fzf-native-nvim
@@ -224,6 +194,7 @@
             vim-rhubarb
             nvim-surround
           ];
+
           extra = with pkgs.vimPlugins; [
             fidget-nvim
             lualine-lsp-progress
@@ -237,49 +208,35 @@
         };
       };
 
-      sharedLibraries = {
-        # general = with pkgs; [];
+      # sharedLibraries = {};
+      # environmentVariables = {};
+
+      extraWrapperArgs = pkgs.lib.optionalAttrs (categories.zettelkasten or false) {
+        "--prefix" = "PATH : ${pkgs.lib.makeBinPath [ pkgs.markdown-oxide ]}";
       };
 
-      environmentVariables = {
-      };
-
-      extraWrapperArgs = {};
-
-      python3.libraries = {};
-      extraLuaPackages = {};
+      # python3.libraries = {};
+      # extraLuaPackages = {};
 
       extraCats = {
-        debug = [
-          ["debug" "default"]
+        python = [
+          ["debug" "python"]
         ];
         go = [
           ["debug" "go"]
         ];
-        c_cpp = [
-          ["debug" "c_cpp"]
-        ];
-        python = [
-          ["debug" "python"]
-        ];
-        rust = [
-          ["debug" "rust"]
-        ];
-        markdown = [
-        ["markdown"]
-        ];
+        # markdown uses conditional logic directly, no extraCats needed
+        # rust, lua, javascript, nix, c_cpp don't need extraCats mappings
       };
     };
 
     packageDefinitions = {
-      nixCats = {
-        pkgs,
-        ...
-      } @ misc: {
+      # 1. Full coding - all features and debugging (aliases: vi, vim)
+      nixCats = { pkgs, ... }: {
         settings = {
           suffix-path = true;
           suffix-LD = true;
-          aliases = ["vi" "vim" "nvim"];
+          aliases = ["vi" "vim"];
 
           wrapRc = true;
           configDirName = "nixCats-nvim";
@@ -288,20 +245,64 @@
         };
         categories = {
           general = true;
-          lint = true;
-          format = true;
-          markdown = true;
-          go = true;
-          rust = true;
-          python = true;
-          lua = true;
-          c_cpp = true;
-          nix = true;
-          javascript = true;
-
-          lspDebugMode = false;
           themer = true;
           colorscheme = "catppuccin";
+
+          lint = true;
+          format = true;
+
+          python = true;
+          go = true;
+          rust = true;
+          lua = true;
+          nix = true;
+          javascript = true;
+          c_cpp = true;
+
+          markdown = true;
+          zettelkasten = false;
+
+          lspDebugMode = false;
+        };
+        extra = {
+          nixdExtras = {
+            nixpkgs = ''import ${pkgs.path} {}'';
+          };
+        };
+      };
+
+      nixCats-zk = { pkgs, ... }: {
+        settings = {
+          suffix-path = true;
+          suffix-LD = true;
+          aliases = ["zk"];
+
+          wrapRc = true;
+          configDirName = "nixCats-nvim";
+          hosts.python3.enable = false;
+          hosts.node.enable = false;
+        };
+        categories = {
+          general = true;
+          themer = true;
+          colorscheme = "catppuccin";
+
+          lint = true;
+          format = true;
+
+          markdown = true;
+          zettelkasten = true;
+
+          lua = true;
+          nix = true;
+          
+          python = false;
+          go = false;
+          rust = false;
+          javascript = false;
+          c_cpp = false;
+
+          lspDebugMode = false;
         };
         extra = {
           nixdExtras = {
