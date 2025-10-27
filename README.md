@@ -1,43 +1,86 @@
-# Example `nixCats` Configuration
+# Personal Neovim Configuration with nixCats
 
-This directory contains an example of the suggested, idiomatic way to manage a neovim configuration using `nixCats`. It leverages [`lze`](https://github.com/BirdeeHub/lze) for lazy loading, although [`lz.n`](https://github.com/nvim-neorocks/lz.n) can be used instead to similar effect. It also includes a fallback mechanism using `paq` and `mason`, allowing you to load the directory without `nix` if needed.
+This is a personal Neovim configuration built using [nixCats](https://github.com/BirdeeHub/nixCats-nvim), a nix-based Neovim configuration framework. The setup emphasizes plugin consolidation using [snacks.nvim](https://github.com/folke/snacks.nvim) as a mega-plugin to replace multiple individual plugins, while maintaining a clean and performant editing environment.
 
-This setup serves as a strong starting point for a `Neovim` configuration—think of it as `kickstart.nvim`, but using `nixCats` **instead of** `lazy.nvim` and `mason`, rather than in addition to them. It also follows a modular approach, spreading the configuration across multiple files rather than consolidating everything into one.
+## Why nixCats?
 
-While this is not a "perfect" configuration, nor does it claim to be, it is **a well-structured, recommended way to use `nixCats`**. You are encouraged to customize it to fit your needs. `nixCats` itself is just the `nix`-based package manager, along with its associated [Lua plugin](https://nixcats.org/nixCats_plugin.html).
+nixCats provides several advantages over traditional plugin managers:
 
-## Why Use This Approach?
+**Transparency**: Uses normal packpath loading methods instead of hijacking plugin mechanisms, making it clear what happens during startup and plugin loading.
 
-Using `nixCats` in this way provides a **simpler, more transparent** experience compared to solutions like `lazy.nvim`, which hijack normal plugin loading.
+**Reproducibility**: Nix ensures consistent plugin versions and dependencies across different systems and installations.
 
-It leverages the normal packpath methods of loading plugins both at startup and lazily, allowing you to know what is going on behind the scenes.
+**Flexibility**: Supports both lazy and startup loading without conflicting with Neovim's native plugin system.
 
-It avoids duplicating functionality between nix and other nvim based download managers, avoiding compatibility issues.
+**Compatibility**: Maintains fallback support for non-nix environments while avoiding duplication between nix and other download managers.
 
-You can still have a config that works without nix using this method if desired without undue difficulty.
+## Architecture
 
-## Directory Structure
+This configuration leverages [lze](https://github.com/BirdeeHub/lze) for lazy loading and follows a modular structure across multiple files rather than a monolithic approach. The setup is organized using nixCats' category system to conditionally load features.
 
-This configuration primarily uses the following directory structure:
+## Plugins
 
-- The `lua/` directory for core configurations.
-- The `after/plugin/` directory to demonstrate compatibility.
+### Framework
+- `lze` - Lazy loading
+- `snacks.nvim` - File explorer, notifications, word highlighting, indent guides, terminal
+- `plenary.nvim` - Lua utilities
 
-While this structure works well, you are encouraged to further modularize your setup by utilizing any of the runtime directories checked by Neovim:
+### Editing
+- `telescope.nvim` - Fuzzy finder
+- `undotree` - Undo history
+- `comment.nvim` - Code commenting  
+- `nvim-surround` - Surround text objects
+- `vim-sleuth` - Auto indentation
 
-- `ftplugin/` for file-type-specific configurations.
-- `plugin/` for global plugin configurations.
-- Even `pack/*/{start,opt}/` work if you want to make a plugin inside your configuration.
-- And so on...
+### Completion & LSP
+- `nvim-lspconfig` - LSP configurations
+- `blink.cmp` - Completion engine
+- `luasnip` - Snippets
+- `colorful-menu.nvim` - Completion menu colors
 
-If you are unfamiliar with the above, refer to the [Neovim runtime path documentation](https://neovim.io/doc/user/options.html#'rtp').
+### Syntax
+- `nvim-treesitter` - Syntax highlighting
+- `hlargs.nvim` - Function argument highlighting
+- `markview.nvim` - Markdown preview
 
----
+### Git
+- `gitsigns.nvim` - Git signs and blame
+- `vim-fugitive` - Git commands
+- `vim-rhubarb` - GitHub integration
 
-> "Idiomatic" here means:
->
-> - This configuration does **not** use `lazy.nvim`, and does not use `mason.nvim` when nix is involved.
-> - `nixCats` is responsible for downloading all plugins.
-> - Plugins are only loaded if their respective category is enabled.
-> - The [Lua utilities template](https://github.com/BirdeeHub/nixCats-nvim/tree/main/templates/luaUtils/lua/nixCatsUtils) is used (see [`:h nixCats.luaUtils`](https://nixcats.org/nixCats_luaUtils.html)).
-> - [`lze`](https://github.com/BirdeeHub/lze) or [`lz.n`](https://github.com/nvim-neorocks/lz.n) is used for lazy loading.
+### Code Quality
+- `conform.nvim` - Formatting
+- `nvim-lint` - Linting
+
+### Debugging
+- `nvim-dap` - Debug adapter
+- `nvim-dap-ui` - Debug interface
+- `nvim-dap-python` - Python debugging
+- `nvim-dap-go` - Go debugging
+
+### UI
+- `lualine.nvim` - Status line
+- `fidget.nvim` - LSP progress
+- `which-key.nvim` - Keybinding help
+- `nvim-web-devicons` - File icons
+
+### Language Support
+- `lazydev.nvim` - Lua development
+- `rust-tools.nvim` - Rust tools
+
+### Language Support
+
+**Markdown**: Enhanced with `markdown-oxide` LSP server and specialized rendering
+**Lua**: Configured with `lua_ls` for Neovim development
+**Nix**: Integrated with `nixd` language server for configuration management
+**Go**: Supported via `gopls` language server
+
+### Formatters
+
+- `stylua` - Lua code formatting
+- `alejandra` - Nix expression formatting
+- `prettier` - Multi-language formatting for web technologies
+
+## Credits
+
+This configuration is built upon the foundation provided by [BirdeeHub](https://github.com/BirdeeHub), the creator of both [nixCats](https://github.com/BirdeeHub/nixCats-nvim) and [lze](https://github.com/BirdeeHub/lze). Their work has made it possible to create a transparent, nix-native Neovim configuration that avoids the complexity and opacity of traditional plugin managers (yet I still don't really get it).

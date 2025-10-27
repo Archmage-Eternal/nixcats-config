@@ -42,13 +42,10 @@
         ];
 
         markdown = with pkgs; [
-          # Always available: basic markdown tools
           pandoc
           nodePackages.mermaid-cli
-        ] ++ (if categories.zettelkasten or false then [
-          # Zettelkasten-specific: advanced LSP features
           markdown-oxide
-        ] else []);
+        ];
 
         debug = with pkgs; {
           python = [ python313Packages.debugpy ];
@@ -120,19 +117,18 @@
             plenary-nvim
             nvim-notify
             nvim-nio
+            snacks-nvim
           ];
           extra = [
-            oil-nvim
             nvim-web-devicons
           ];
         };
 
-        markdown = with pkgs.vimPlugins; (if categories.zettelkasten or false then [
-          # Full markdown experience for zettelkasten
+        markdown = with pkgs.vimPlugins; [
           markview-nvim
-        ] else [
-          # Basic markdown for general use
-        ]);
+        ];
+        
+
 
         themer = with pkgs.vimPlugins; (
           builtins.getAttr (categories.colorscheme or "tokyonight") {
@@ -193,6 +189,7 @@
             vim-fugitive
             vim-rhubarb
             nvim-surround
+            nui-nvim
           ];
 
           extra = with pkgs.vimPlugins; [
