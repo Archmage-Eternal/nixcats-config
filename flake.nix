@@ -47,6 +47,10 @@
           markdown-oxide
         ];
 
+        spellcheck = with pkgs; [
+          ltex-ls        # LTeX Language Server for grammar and spell check
+        ];
+
         debug = with pkgs; {
           python = [ python313Packages.debugpy ];
           go = [ delve ];
@@ -258,6 +262,7 @@
 
           markdown = true;
           zettelkasten = false;
+          spellcheck = true;
 
           lspDebugMode = false;
         };
@@ -289,6 +294,7 @@
 
           markdown = true;
           zettelkasten = true;
+          spellcheck = true;
 
           lua = true;
           nix = true;

@@ -26,6 +26,9 @@ return {
         { "<leader>s_", hidden = true },
         { "<leader>t", group = "[t]oggles" },
         { "<leader>t_", hidden = true },
+        { "<leader>ts", desc = "[t]oggle [s]pell mode (LTeX ↔ Native)" },
+        { "<leader>tn", desc = "[t]oggle [n]ative spell only" },
+        { "<leader>tS", desc = "[t]oggle LTe[X] spell/grammar" },
         { "<leader>w", group = "[w]orkspace" },
         { "<leader>w_", hidden = true },
       }

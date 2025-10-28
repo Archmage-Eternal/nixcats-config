@@ -1,6 +1,7 @@
 # TODO
 
 ## Configure Plugins
+- [x] Set up spell checking (LTeX + native Neovim)
 - [ ] Set up `nvim-dap` debugging
 - [ ] Configure `nvim-dap-ui` and keybindings  
 - [ ] Set up `conform.nvim` formatters

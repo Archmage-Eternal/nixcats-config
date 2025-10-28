@@ -24,3 +24,10 @@ require_if_cat("debug", "luaConf.debug")
 require_if_cat("lint", "luaConf.lint")
 require_if_cat("format", "luaConf.format")
 
+-- Set up spell checking if enabled
+if nixCats("spellcheck") then
+	local spell = require("luaConf.spell")
+	spell.setup_native_spell()
+	spell.setup_spell_highlights()
+end
+
