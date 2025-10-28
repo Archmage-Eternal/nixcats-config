@@ -78,6 +78,7 @@
           cargo
           rust-analyzer
           clippy
+          rustfmt
         ];
 
         javascript = with pkgs; [
@@ -99,6 +100,12 @@
           nix-doc
           statix
           alejandra
+        ];
+
+        shell = with pkgs; [
+          shellcheck
+          bash-language-server
+          shfmt
         ];
 
         c_cpp = with pkgs; [
@@ -164,7 +171,9 @@
         "go.debug" = with pkgs.vimPlugins; [ nvim-dap-go ];
         
         # Language-specific plugins
-        rust = with pkgs.vimPlugins; [ rust-tools-nvim ];
+        rust = with pkgs.vimPlugins; [ 
+          # rust-tools-nvim  # Deprecated - use rustaceanvim when ready for advanced Rust features
+        ];
         lua = with pkgs.vimPlugins; [ lazydev-nvim ];
 
         # markdown: Markview plugin loaded via startupPlugins
@@ -259,6 +268,7 @@
           nix = true;
           javascript = true;
           c_cpp = true;
+          shell = true;
 
           markdown = true;
           zettelkasten = false;

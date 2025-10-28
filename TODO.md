@@ -2,20 +2,20 @@
 
 ## Configure Plugins
 - [x] Set up spell checking (LTeX + native Neovim)
-- [ ] Set up `nvim-dap` debugging
+- [x] Set up `conform.nvim` formatters
+- [ ] Set up `nvim-dap` debugging (manual debugging preferred for now)
 - [ ] Configure `nvim-dap-ui` and keybindings  
-- [ ] Set up `conform.nvim` formatters
 - [ ] Configure `nvim-lint` linters
-- [ ] Set up `vim-fugitive` keybindings
-- [ ] Configure `vim-rhubarb` GitHub integration
+- [ ] Set up `vim-fugitive` keybindings (Git integration)
+- [ ] Configure `vim-rhubarb` GitHub integration (extends fugitive)
 - [ ] Set up `lazydev.nvim` for Lua
-- [ ] Configure `rust-tools.nvim`
+- [ ] Consider `rustaceanvim` for advanced Rust features (when ready)
 - [ ] Set up `which-key.nvim` descriptions
 - [ ] Configure `lualine-lsp-progress`
 
 ## Add Languages
 - [ ] Add Zig support (LSP, formatter, linter)
-- [ ] Add Rust support (rust-analyzer, rustfmt, clippy)
+- [x] Add Rust support (rust-analyzer, rustfmt, clippy)
 
 ## Fix Issues
 - [ ] Load snacks.nvim with lze instead of direct require

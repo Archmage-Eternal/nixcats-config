@@ -26,6 +26,17 @@ require('lze').load {
           -- Go formatting (gofmt is built into go toolchain)
           go = { "gofmt" },
           
+          -- Rust formatting
+          rust = { "rustfmt" },
+          
+          -- Shell script formatting
+          sh = { "shfmt" },
+          bash = { "shfmt" },
+          
+          -- C/C++ formatting
+          c = { "clang-format" },
+          cpp = { "clang-format" },
+          
           -- JavaScript/TypeScript formatting
           javascript = { "prettier" },
           typescript = { "prettier" },
