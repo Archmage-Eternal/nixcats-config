@@ -137,6 +137,7 @@
 
         markdown = with pkgs.vimPlugins; [
           markview-nvim
+          zotcite
         ];
         
 

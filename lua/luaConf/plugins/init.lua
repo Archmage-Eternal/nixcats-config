@@ -14,6 +14,7 @@ require('lze').load {
   -- Core plugins (unchanged)
   { import = "luaConf.plugins.telescope", },
   { import = "luaConf.plugins.markview", },
+  { import = "luaConf.plugins.zotcite", },
   { import = "luaConf.plugins.treesitter", },
   { import = "luaConf.plugins.completion", },
   { import = "luaConf.plugins.undotree", },
