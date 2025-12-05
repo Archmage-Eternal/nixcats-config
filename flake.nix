@@ -63,6 +63,7 @@
           mypy
           black
           isort
+          python313Packages.pyyaml # For zotcite's yaml fucntionality
         ];
 
         go = with pkgs; [
