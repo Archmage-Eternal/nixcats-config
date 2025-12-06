@@ -42,18 +42,23 @@
         ];
 
         markdown = with pkgs; [
-          pandoc
-          nodePackages.mermaid-cli
           markdown-oxide
         ];
 
+        zettelkasten = with pkgs; [
+          sqlite
+          pandoc
+          nodePackages.mermaid-cli
+          python313Packages.pyyaml
+        ];
+
         spellcheck = with pkgs; [
-          ltex-ls        # LTeX Language Server for grammar and spell check
+          ltex-ls # LTeX Language Server for grammar and spell check
         ];
 
         debug = with pkgs; {
-          python = [ python313Packages.debugpy ];
-          go = [ delve ];
+          python = [python313Packages.debugpy];
+          go = [delve];
         };
 
         python = with pkgs; [
@@ -63,7 +68,6 @@
           mypy
           black
           isort
-          python313Packages.pyyaml # For zotcite's yaml fucntionality
         ];
 
         go = with pkgs; [
@@ -138,10 +142,11 @@
 
         markdown = with pkgs.vimPlugins; [
           markview-nvim
+        ];
+
+        zettelkasten = with pkgs.vimPlugins; [
           zotcite
         ];
-        
-
 
         themer = with pkgs.vimPlugins; (
           builtins.getAttr (categories.colorscheme or "tokyonight") {
@@ -157,11 +162,11 @@
         lint = with pkgs.vimPlugins; [
           nvim-lint
         ];
-        
+
         format = with pkgs.vimPlugins; [
           conform-nvim
         ];
-        
+
         debug = with pkgs.vimPlugins; [
           nvim-dap
           nvim-dap-ui
@@ -169,14 +174,14 @@
         ];
 
         # Language-specific debug plugins
-        "python.debug" = with pkgs.vimPlugins; [ nvim-dap-python ];
-        "go.debug" = with pkgs.vimPlugins; [ nvim-dap-go ];
-        
+        "python.debug" = with pkgs.vimPlugins; [nvim-dap-python];
+        "go.debug" = with pkgs.vimPlugins; [nvim-dap-go];
+
         # Language-specific plugins
-        rust = with pkgs.vimPlugins; [ 
+        rust = with pkgs.vimPlugins; [
           # rust-tools-nvim  # Deprecated - use rustaceanvim when ready for advanced Rust features
         ];
-        lua = with pkgs.vimPlugins; [ lazydev-nvim ];
+        lua = with pkgs.vimPlugins; [lazydev-nvim];
 
         # markdown: Markview plugin loaded via startupPlugins
         general = {
@@ -222,11 +227,7 @@
 
       # sharedLibraries = {};
       # environmentVariables = {};
-
-      extraWrapperArgs = pkgs.lib.optionalAttrs (categories.zettelkasten or false) {
-        "--prefix" = "PATH : ${pkgs.lib.makeBinPath [ pkgs.markdown-oxide ]}";
-      };
-
+      # extraWrapperArgs = {};
       # python3.libraries = {};
       # extraLuaPackages = {};
 
@@ -237,14 +238,16 @@
         go = [
           ["debug" "go"]
         ];
-        # markdown uses conditional logic directly, no extraCats needed
+        zettelkasten = [
+          ["markdown" "zettelkasten"]
+        ];
         # rust, lua, javascript, nix, c_cpp don't need extraCats mappings
       };
     };
 
     packageDefinitions = {
       # 1. Full coding - all features and debugging (aliases: vi, vim)
-      nixCats = { pkgs, ... }: {
+      nixCats = {pkgs, ...}: {
         settings = {
           suffix-path = true;
           suffix-LD = true;
@@ -273,7 +276,7 @@
           shell = true;
 
           markdown = true;
-          zettelkasten = false;
+          zettelkasten = true;
           spellcheck = true;
 
           lspDebugMode = false;
@@ -285,7 +288,7 @@
         };
       };
 
-      nixCats-zk = { pkgs, ... }: {
+      nixCats-zk = {pkgs, ...}: {
         settings = {
           suffix-path = true;
           suffix-LD = true;
@@ -310,7 +313,7 @@
 
           lua = true;
           nix = true;
-          
+
           python = false;
           go = false;
           rust = false;
