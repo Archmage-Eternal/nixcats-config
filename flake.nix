@@ -309,8 +309,8 @@
           zettelkasten = true;
           spellcheck = true;
 
-          lua = true;
-          nix = true;
+          lua = false;
+          nix = false;
 
           python = false;
           go = false;
