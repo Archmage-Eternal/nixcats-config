@@ -11,6 +11,8 @@ require('lze').load {
       require('lint').linters_by_ft = {
         -- NOTE: download some linters in lspsAndRuntimeDeps
         -- and configure them here
+        -- Use ruff for Python linting
+        python = { 'ruff' },
         -- markdown = {'vale',},
         -- javascript = { 'eslint' },
         -- typescript = { 'eslint' },

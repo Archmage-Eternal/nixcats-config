@@ -20,8 +20,9 @@ require('lze').load {
           -- Lua formatting with stylua
           lua = { "stylua" },
           
-          -- Python formatting (run isort first, then black)
-          python = { "isort", "black" },
+          -- Python formatting: use ruff as the unified formatter/linter
+          -- Ruff can both lint and format; conform will prefer available formatters
+          python = { "ruff" },
           
           -- Go formatting (gofmt is built into go toolchain)
           go = { "gofmt" },
