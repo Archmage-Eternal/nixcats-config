@@ -63,11 +63,9 @@
 
         python = with pkgs; [
           python3
-          pyright
-          pylint
-          mypy
-          black
-          isort
+          uv
+          ruff
+          basedpyright
         ];
 
         go = with pkgs; [
