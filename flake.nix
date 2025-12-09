@@ -259,7 +259,7 @@
         categories = {
           general = true;
           themer = true;
-          colorscheme = "catppuccin";
+          colorscheme = "tokyonight";
 
           lint = true;
           format = true;
@@ -300,7 +300,7 @@
         categories = {
           general = true;
           themer = true;
-          colorscheme = "catppuccin";
+          colorscheme = "tokyonight";
 
           lint = true;
           format = true;
