@@ -64,6 +64,7 @@ local lsp_files = {
   "nixd", 
   "markdown_oxide",
   "gopls",
+  "basedpyright",
   "ltex",
   -- Add more LSP files here as you create them
 }
