@@ -204,7 +204,7 @@
             lualine-nvim
             gitsigns-nvim
             vim-sleuth
-            vim-fugitive
+            neogit
             vim-rhubarb
             nvim-surround
             nui-nvim
