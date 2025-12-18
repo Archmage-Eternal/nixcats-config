@@ -22,11 +22,17 @@ This configuration leverages [lze](https://github.com/BirdeeHub/lze) for lazy lo
 
 ### Framework
 - `lze` - Lazy loading
+- `lzextras` - lze extensions
 - `snacks.nvim` - File explorer, notifications, word highlighting, indent guides, terminal
 - `plenary.nvim` - Lua utilities
+- `nvim-nio` - Async I/O library
+- `vim-repeat` - Repeat plugin commands
+- `nui-nvim` - UI component library (dependency for neogit)
 
 ### Editing
 - `telescope.nvim` - Fuzzy finder
+- `telescope-fzf-native.nvim` - FZF sorter for telescope
+- `telescope-ui-select.nvim` - Telescope as UI select
 - `undotree` - Undo history
 - `comment.nvim` - Code commenting  
 - `nvim-surround` - Surround text objects
@@ -35,17 +41,20 @@ This configuration leverages [lze](https://github.com/BirdeeHub/lze) for lazy lo
 ### Completion & LSP
 - `nvim-lspconfig` - LSP configurations
 - `blink.cmp` - Completion engine
+- `blink-compat` - Compatibility layer for blink.cmp
 - `luasnip` - Snippets
+- `cmp-cmdline` - Command line completion
 - `colorful-menu.nvim` - Completion menu colors
 
 ### Syntax
-- `nvim-treesitter` - Syntax highlighting
+- `nvim-treesitter` - Syntax highlighting (with all grammars)
+- `nvim-treesitter-textobjects` - Treesitter textobject selection
 - `hlargs.nvim` - Function argument highlighting
 - `markview.nvim` - Markdown preview
 
 ### Git
 - `gitsigns.nvim` - Git signs and blame
-- `vim-fugitive` - Git commands
+- `neogit` - Magit-like Git interface
 - `vim-rhubarb` - GitHub integration
 
 ### Code Quality
@@ -55,18 +64,22 @@ This configuration leverages [lze](https://github.com/BirdeeHub/lze) for lazy lo
 ### Debugging
 - `nvim-dap` - Debug adapter
 - `nvim-dap-ui` - Debug interface
+- `nvim-dap-virtual-text` - Virtual text for DAP
 - `nvim-dap-python` - Python debugging
 - `nvim-dap-go` - Go debugging
 
 ### UI
 - `lualine.nvim` - Status line
+- `lualine-lsp-progress` - LSP progress in lualine
 - `fidget.nvim` - LSP progress
 - `which-key.nvim` - Keybinding help
 - `nvim-web-devicons` - File icons
+- `nvim-notify` - Notification system
+- `indent-blankline.nvim` - Indent guides
 
 ### Language Support
 - `lazydev.nvim` - Lua development
-- `rust-tools.nvim` - Rust tools
+- `zotcite` - Zotero citation integration for academic writing
 
 ### Language Support
 
@@ -75,11 +88,24 @@ This configuration leverages [lze](https://github.com/BirdeeHub/lze) for lazy lo
 **Nix**: Integrated with `nixd` language server for configuration management
 **Go**: Supported via `gopls` language server
 
-### Formatters
+### Formatters & Linters
 
+**Formatters:**
+- `ruff` - Python formatting and linting
 - `stylua` - Lua code formatting
 - `alejandra` - Nix expression formatting
 - `prettier` - Multi-language formatting for web technologies
+- `rustfmt` - Rust code formatting
+- `gofmt` - Go code formatting
+- `shfmt` - Shell script formatting
+- `clang-format` - C/C++ code formatting
+
+**Linters:**
+- `ruff` - Python linting (replaces pylint, flake8, isort, black)
+- `shellcheck` - Shell script linting
+- `luacheck` - Lua linting
+- `statix` - Nix linting
+- `cppcheck` - C/C++ linting
 
 ## Credits
 
